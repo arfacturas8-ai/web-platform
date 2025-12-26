@@ -1,0 +1,52 @@
+import * as React from 'react';
+import { Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+export interface CheckboxProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  label?: string;
+  onCheckedChange?: (checked: boolean) => void;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}
+
+const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+  ({ className, label, onCheckedChange, onChange, ...props }, ref) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (onCheckedChange) {
+        onCheckedChange(e.target.checked);
+      }
+      if (onChange) {
+        onChange(e);
+      }
+    };
+
+    return (
+      <div className="flex items-center gap-2">
+        <div className="relative">
+          <input
+            type="checkbox"
+            className={cn(
+              'peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+              className
+            )}
+            ref={ref}
+            onChange={handleChange}
+            {...props}
+          />
+          <Check className="pointer-events-none absolute left-0 top-0 h-4 w-4 text-primary-foreground opacity-0 peer-checked:opacity-100" />
+        </div>
+        {label && (
+          <label
+            htmlFor={props.id}
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            {label}
+          </label>
+        )}
+      </div>
+    );
+  }
+);
+Checkbox.displayName = 'Checkbox';
+
+export { Checkbox };
