@@ -1,6 +1,7 @@
 /**
- * Skeleton Loading Component
- * Animated placeholder for loading states
+ * Cafe 1973 - Skeleton Loading Components
+ * Bisqueria-inspired design with Cafe 1973 brand colors
+ * Animated placeholders for loading states
  */
 import React from 'react';
 
@@ -8,7 +9,7 @@ interface SkeletonProps {
   className?: string;
   width?: string | number;
   height?: string | number;
-  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
   animate?: boolean;
 }
 
@@ -21,9 +22,11 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 }) => {
   const roundedClasses = {
     none: 'rounded-none',
-    sm: 'rounded',
+    sm: 'rounded-sm',
     md: 'rounded-md',
     lg: 'rounded-lg',
+    xl: 'rounded-xl',
+    '2xl': 'rounded-2xl',
     full: 'rounded-full',
   };
 
@@ -34,7 +37,9 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 
   return (
     <div
-      className={`bg-forest/10 ${roundedClasses[rounded]} ${animate ? 'animate-pulse' : ''} ${className}`}
+      className={`bg-gradient-to-r from-sand/30 via-sand/50 to-sand/30 ${roundedClasses[rounded]} ${
+        animate ? 'animate-shimmer bg-[length:200%_100%]' : ''
+      } ${className}`}
       style={style}
     />
   );
@@ -45,23 +50,24 @@ export const SkeletonText: React.FC<{ lines?: number; className?: string }> = ({
   lines = 3,
   className = '',
 }) => (
-  <div className={`space-y-2 ${className}`}>
+  <div className={`space-y-3 ${className}`}>
     {Array.from({ length: lines }).map((_, i) => (
       <Skeleton
         key={i}
         className="h-4"
         width={i === lines - 1 ? '60%' : '100%'}
+        rounded="lg"
       />
     ))}
   </div>
 );
 
 export const SkeletonCard: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`bg-white rounded-xl p-4 shadow-soft ${className}`}>
-    <Skeleton className="h-40 w-full mb-4" rounded="lg" />
-    <Skeleton className="h-5 w-3/4 mb-2" />
-    <Skeleton className="h-4 w-1/2 mb-4" />
-    <Skeleton className="h-8 w-full" rounded="lg" />
+  <div className={`card p-5 ${className}`}>
+    <Skeleton className="h-44 w-full mb-5" rounded="xl" />
+    <Skeleton className="h-5 w-3/4 mb-3" rounded="lg" />
+    <Skeleton className="h-4 w-1/2 mb-5" rounded="lg" />
+    <Skeleton className="h-10 w-full" rounded="xl" />
   </div>
 );
 
@@ -71,8 +77,8 @@ export const SkeletonTableRow: React.FC<{ columns?: number; className?: string }
 }) => (
   <tr className={className}>
     {Array.from({ length: columns }).map((_, i) => (
-      <td key={i} className="px-4 py-3">
-        <Skeleton className="h-4" width={i === 0 ? 120 : i === columns - 1 ? 80 : 100} />
+      <td key={i} className="px-5 py-4">
+        <Skeleton className="h-4" width={i === 0 ? 120 : i === columns - 1 ? 80 : 100} rounded="lg" />
       </td>
     ))}
   </tr>
@@ -83,18 +89,18 @@ export const SkeletonTable: React.FC<{ rows?: number; columns?: number; classNam
   columns = 5,
   className = '',
 }) => (
-  <div className={`bg-white rounded-xl overflow-hidden shadow-soft ${className}`}>
+  <div className={`card overflow-hidden ${className}`}>
     <table className="w-full">
-      <thead className="bg-[#faf8f3] border-b border-sand-200">
+      <thead className="bg-sand/20 border-b border-sand-light">
         <tr>
           {Array.from({ length: columns }).map((_, i) => (
-            <th key={i} className="px-4 py-3 text-left">
-              <Skeleton className="h-4" width={80} />
+            <th key={i} className="px-5 py-4 text-left">
+              <Skeleton className="h-4" width={80} rounded="lg" />
             </th>
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody className="divide-y divide-sand-light">
         {Array.from({ length: rows }).map((_, i) => (
           <SkeletonTableRow key={i} columns={columns} />
         ))}
@@ -104,29 +110,36 @@ export const SkeletonTable: React.FC<{ rows?: number; columns?: number; classNam
 );
 
 export const SkeletonDashboardCard: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`bg-white rounded-xl p-6 shadow-soft ${className}`}>
-    <div className="flex justify-between items-start mb-4">
-      <Skeleton className="h-4 w-24" />
-      <Skeleton className="h-8 w-8" rounded="full" />
+  <div className={`card p-6 ${className}`}>
+    <div className="flex justify-between items-start mb-5">
+      <Skeleton className="h-4 w-28" rounded="lg" />
+      <Skeleton className="h-10 w-10" rounded="full" />
     </div>
-    <Skeleton className="h-8 w-20 mb-2" />
-    <Skeleton className="h-3 w-32" />
+    <Skeleton className="h-9 w-24 mb-2" rounded="lg" />
+    <Skeleton className="h-3 w-36" rounded="lg" />
   </div>
 );
 
 export const SkeletonMenuItem: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`bg-white rounded-2xl overflow-hidden shadow-soft ${className}`}>
-    <Skeleton className="h-48 w-full" rounded="none" />
-    <div className="p-4">
-      <Skeleton className="h-5 w-3/4 mb-2" />
-      <Skeleton className="h-4 w-full mb-1" />
-      <Skeleton className="h-4 w-2/3 mb-3" />
-      <div className="flex justify-between items-center">
-        <Skeleton className="h-6 w-16" />
-        <Skeleton className="h-10 w-10" rounded="full" />
+  <div className={`product-card overflow-hidden ${className}`}>
+    <Skeleton className="aspect-[4/3] w-full" rounded="none" />
+    <div className="p-5">
+      <div className="flex justify-between items-start gap-3 mb-3">
+        <Skeleton className="h-5 flex-1" rounded="lg" />
+        <Skeleton className="h-6 w-20" rounded="lg" />
+      </div>
+      <Skeleton className="h-4 w-full mb-2" rounded="lg" />
+      <Skeleton className="h-4 w-2/3 mb-4" rounded="lg" />
+      <div className="flex gap-2">
+        <Skeleton className="h-6 w-16" rounded="full" />
+        <Skeleton className="h-6 w-16" rounded="full" />
       </div>
     </div>
   </div>
+);
+
+export const SkeletonCategoryPill: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <Skeleton className={`h-12 w-24 ${className}`} rounded="full" />
 );
 
 export default Skeleton;

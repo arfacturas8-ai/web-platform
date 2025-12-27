@@ -1,10 +1,12 @@
 /**
- * Café 1973 - Category Pills
+ * Cafe 1973 - Category Pills
+ * Bisqueria-inspired design with Cafe 1973 brand colors
  * Horizontal scrolling category filter
  */
 import React, { useRef, useEffect } from 'react';
 import type { Category } from '@/types/menu';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { LayoutGrid } from 'lucide-react';
 
 interface CategoryPillsProps {
   categories: Category[];
@@ -26,8 +28,6 @@ export const CategoryPills: React.FC<CategoryPillsProps> = ({
     if (selectedRef.current && scrollRef.current) {
       const container = scrollRef.current;
       const pill = selectedRef.current;
-      const containerRect = container.getBoundingClientRect();
-      const pillRect = pill.getBoundingClientRect();
 
       // Calculate scroll position to center the pill
       const scrollLeft = pill.offsetLeft - container.offsetWidth / 2 + pill.offsetWidth / 2;
@@ -45,7 +45,7 @@ export const CategoryPills: React.FC<CategoryPillsProps> = ({
   return (
     <div
       ref={scrollRef}
-      className="flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 pb-2"
+      className="flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4 py-1"
       role="tablist"
       aria-label="Menu categories"
     >
@@ -53,14 +53,15 @@ export const CategoryPills: React.FC<CategoryPillsProps> = ({
       <button
         ref={selectedCategory === null ? selectedRef : null}
         onClick={() => onSelectCategory(null)}
-        className={`flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+        className={`flex-shrink-0 px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center gap-2 ${
           selectedCategory === null
-            ? 'bg-forest text-white shadow-md'
-            : 'bg-sand/30 text-forest hover:bg-sand/50'
+            ? 'bg-forest text-cream shadow-card scale-105'
+            : 'bg-white text-forest border-2 border-sand-light hover:border-forest hover:bg-sand/10'
         }`}
         role="tab"
         aria-selected={selectedCategory === null}
       >
+        <LayoutGrid size={16} />
         {language === 'es' ? 'Todo' : 'All'}
       </button>
 
@@ -76,10 +77,10 @@ export const CategoryPills: React.FC<CategoryPillsProps> = ({
             key={category.id}
             ref={isSelected ? selectedRef : null}
             onClick={() => onSelectCategory(category.id)}
-            className={`flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+            className={`flex-shrink-0 px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 whitespace-nowrap ${
               isSelected
-                ? 'bg-forest text-white shadow-md'
-                : 'bg-sand/30 text-forest hover:bg-sand/50'
+                ? 'bg-forest text-cream shadow-card scale-105'
+                : 'bg-white text-forest border-2 border-sand-light hover:border-forest hover:bg-sand/10'
             }`}
             role="tab"
             aria-selected={isSelected}

@@ -1,5 +1,10 @@
+/**
+ * Cafe 1973 - Language Selector
+ * Bisqueria-inspired design with Cafe 1973 brand colors
+ * Dropdown language switcher with multiple variants
+ */
 import { useState, useRef, useEffect } from 'react';
-import { Globe } from 'lucide-react';
+import { Globe, Check, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LANGUAGE_NAMES, LANGUAGE_FLAGS } from '@/utils/constants';
 import type { Language } from '@/utils/i18n';
@@ -35,24 +40,27 @@ export const LanguageSelector = ({ variant = 'default', className = '' }: Langua
       <div className={`relative ${className}`} ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1 p-2 rounded-lg hover:bg-sand/20 transition-colors touch-scale"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-sand/30 hover:bg-sand/50 transition-all duration-200"
           aria-label={t('selectLanguage')}
         >
           <span className="text-lg">{LANGUAGE_FLAGS[language]}</span>
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg border border-sand/30 overflow-hidden z-50 min-w-[140px] animate-scale-in">
+          <div className="absolute right-0 top-full mt-2 bg-cream rounded-2xl shadow-elevated border border-sand-light overflow-hidden z-50 min-w-[160px] animate-scale-in">
             {supportedLanguages.map((lang) => (
               <button
                 key={lang}
                 onClick={() => handleSelectLanguage(lang)}
-                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-cream transition-colors touch-scale ${
-                  language === lang ? 'bg-cream text-forest font-medium' : 'text-forest/80'
+                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-sand/20 transition-colors ${
+                  language === lang ? 'bg-sand/30 text-forest font-semibold' : 'text-forest/80'
                 }`}
               >
                 <span className="text-lg">{LANGUAGE_FLAGS[lang]}</span>
                 <span className="text-sm">{LANGUAGE_NAMES[lang]}</span>
+                {language === lang && (
+                  <Check size={16} className="ml-auto text-forest" />
+                )}
               </button>
             ))}
           </div>
@@ -66,25 +74,29 @@ export const LanguageSelector = ({ variant = 'default', className = '' }: Langua
       <div className={`relative ${className}`} ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-sand/20 hover:bg-sand/30 transition-colors touch-scale"
+          className="flex items-center gap-2 px-3 py-2 rounded-full bg-sand/30 hover:bg-sand/50 transition-all duration-200"
           aria-label={t('selectLanguage')}
         >
           <span className="text-lg">{LANGUAGE_FLAGS[language]}</span>
-          <span className="text-sm font-medium text-forest">{language.toUpperCase()}</span>
+          <span className="text-sm font-semibold text-forest">{language.toUpperCase()}</span>
+          <ChevronDown size={14} className={`text-forest/50 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg border border-sand/30 overflow-hidden z-50 min-w-[160px] animate-scale-in">
+          <div className="absolute right-0 top-full mt-2 bg-cream rounded-2xl shadow-elevated border border-sand-light overflow-hidden z-50 min-w-[180px] animate-scale-in">
             {supportedLanguages.map((lang) => (
               <button
                 key={lang}
                 onClick={() => handleSelectLanguage(lang)}
-                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-cream transition-colors touch-scale ${
-                  language === lang ? 'bg-cream text-forest font-medium' : 'text-forest/80'
+                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-sand/20 transition-colors ${
+                  language === lang ? 'bg-sand/30 text-forest font-semibold' : 'text-forest/80'
                 }`}
               >
                 <span className="text-lg">{LANGUAGE_FLAGS[lang]}</span>
-                <span className="text-sm">{LANGUAGE_NAMES[lang]}</span>
+                <span className="text-sm flex-1">{LANGUAGE_NAMES[lang]}</span>
+                {language === lang && (
+                  <Check size={16} className="text-forest" />
+                )}
               </button>
             ))}
           </div>
@@ -98,42 +110,35 @@ export const LanguageSelector = ({ variant = 'default', className = '' }: Langua
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-sand/50 hover:border-sand hover:shadow-md transition-all touch-scale"
+        className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white border-2 border-sand-light hover:border-forest/30 shadow-soft hover:shadow-card transition-all duration-200"
         aria-label={t('selectLanguage')}
       >
-        <Globe className="w-4 h-4 text-forest/60" />
-        <span className="text-lg">{LANGUAGE_FLAGS[language]}</span>
-        <span className="text-sm font-medium text-forest">{LANGUAGE_NAMES[language]}</span>
-        <svg
-          className={`w-4 h-4 text-forest/40 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <Globe className="w-4 h-4 text-forest/50" strokeWidth={2} />
+        <span className="text-xl">{LANGUAGE_FLAGS[language]}</span>
+        <span className="text-sm font-semibold text-forest">{LANGUAGE_NAMES[language]}</span>
+        <ChevronDown size={16} className={`text-forest/40 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-xl border border-sand/30 overflow-hidden z-50 min-w-[200px] animate-scale-in">
-          <div className="px-4 py-2 bg-cream/50 border-b border-sand/20">
-            <p className="text-xs font-medium text-forest/60 uppercase tracking-wide">{t('selectLanguage')}</p>
+        <div className="absolute right-0 top-full mt-2 bg-cream rounded-2xl shadow-elevated border border-sand-light overflow-hidden z-50 min-w-[220px] animate-scale-in">
+          <div className="px-4 py-3 bg-sand/20 border-b border-sand-light">
+            <p className="text-xs font-bold text-forest/50 uppercase tracking-wider">{t('selectLanguage')}</p>
           </div>
-          <div className="py-1">
+          <div className="py-2">
             {supportedLanguages.map((lang) => (
               <button
                 key={lang}
                 onClick={() => handleSelectLanguage(lang)}
-                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-cream transition-colors touch-scale ${
-                  language === lang ? 'bg-sand/20 text-forest font-medium' : 'text-forest/80'
+                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-sand/20 transition-colors ${
+                  language === lang ? 'bg-forest/5 text-forest font-semibold' : 'text-forest/70'
                 }`}
               >
                 <span className="text-xl">{LANGUAGE_FLAGS[lang]}</span>
-                <span className="flex-1 text-left">{LANGUAGE_NAMES[lang]}</span>
+                <span className="flex-1 text-left text-sm">{LANGUAGE_NAMES[lang]}</span>
                 {language === lang && (
-                  <svg className="w-5 h-5 text-forest" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
+                  <div className="w-6 h-6 bg-forest rounded-full flex items-center justify-center">
+                    <Check size={14} className="text-cream" strokeWidth={3} />
+                  </div>
                 )}
               </button>
             ))}

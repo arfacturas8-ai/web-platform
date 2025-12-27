@@ -1,6 +1,7 @@
 /**
- * PublicHeader - Global floating header for public pages
- * Includes Language Selector and Currency Toggle
+ * Cafe 1973 - Public Header Components
+ * Bisqueria-inspired design with Cafe 1973 brand colors
+ * Includes floating language selector and header variants
  */
 import React from 'react';
 import { Link } from '@/lib/router';
@@ -32,46 +33,51 @@ export const PublicHeader: React.FC<PublicHeaderProps> = ({
   className = '',
 }) => {
   const variantStyles = {
-    light: 'bg-white/90 backdrop-blur-md shadow-sm',
-    dark: 'bg-black/40 backdrop-blur-md',
+    light: 'bg-cream/95 backdrop-blur-md shadow-soft border-b border-sand-light',
+    dark: 'bg-forest/90 backdrop-blur-md',
     transparent: '',
   };
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 ${variantStyles[variant]} ${className}`}>
-      <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
-        {/* Left side - Back button or Logo */}
-        <div className="flex items-center gap-3">
-          {showBackButton && (
-            onBack ? (
-              <button
-                onClick={onBack}
-                className="flex items-center gap-2 text-forest/80 hover:text-forest transition-colors touch-scale"
-              >
-                <ArrowLeft size={20} />
-              </button>
-            ) : (
-              <Link
-                to="/"
-                className="flex items-center gap-2 text-forest/80 hover:text-forest transition-colors touch-scale"
-              >
-                <ArrowLeft size={20} />
+      <div className="container">
+        <div className="flex items-center justify-between py-4">
+          {/* Left side - Back button or Logo */}
+          <div className="flex items-center gap-4">
+            {showBackButton && (
+              onBack ? (
+                <button
+                  onClick={onBack}
+                  className="nav-icon-btn"
+                  aria-label="Go back"
+                >
+                  <ArrowLeft size={20} />
+                </button>
+              ) : (
+                <Link
+                  to="/"
+                  className="nav-icon-btn"
+                  aria-label="Go back home"
+                >
+                  <ArrowLeft size={20} />
+                </Link>
+              )
+            )}
+            {showLogo && (
+              <Link to="/" className="flex items-center gap-3 group">
+                <div className="w-10 h-10 bg-forest rounded-full flex items-center justify-center shadow-soft group-hover:shadow-card transition-shadow">
+                  <Coffee className="w-5 h-5 text-sand" />
+                </div>
+                <span className="font-bold text-forest hidden sm:block">Cafe 1973</span>
               </Link>
-            )
-          )}
-          {showLogo && (
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-forest rounded-full flex items-center justify-center">
-                <Coffee className="w-4 h-4 text-sand" />
-              </div>
-            </Link>
-          )}
-        </div>
+            )}
+          </div>
 
-        {/* Right side - Controls */}
-        <div className="flex items-center gap-2">
-          {showCurrency && <CurrencyToggle className="hidden sm:flex" />}
-          <LanguageSelector variant="compact" />
+          {/* Right side - Controls */}
+          <div className="flex items-center gap-3">
+            {showCurrency && <CurrencyToggle className="hidden sm:flex" />}
+            <LanguageSelector variant="compact" />
+          </div>
         </div>
       </div>
     </header>
@@ -85,14 +91,16 @@ export const PublicHeader: React.FC<PublicHeaderProps> = ({
 export const FloatingLanguageSelector: React.FC<{ className?: string }> = ({ className = '' }) => {
   return (
     <div className={`fixed top-4 right-4 z-50 ${className}`}>
-      <LanguageSelector variant="compact" />
+      <div className="bg-cream/90 backdrop-blur-md rounded-full shadow-soft p-1">
+        <LanguageSelector variant="compact" />
+      </div>
     </div>
   );
 };
 
 /**
  * FloatingControls - Combined language and currency controls
- * Floating in top-right corner
+ * Floating in top-right corner with glass effect
  */
 export const FloatingControls: React.FC<{
   showCurrency?: boolean;
@@ -102,9 +110,11 @@ export const FloatingControls: React.FC<{
   className = ''
 }) => {
   return (
-    <div className={`fixed top-4 right-4 z-50 flex items-center gap-2 ${className}`}>
-      {showCurrency && <CurrencyToggle />}
-      <LanguageSelector variant="compact" />
+    <div className={`fixed top-4 right-4 z-50 ${className}`}>
+      <div className="flex items-center gap-2 bg-cream/90 backdrop-blur-md rounded-full shadow-soft px-2 py-1">
+        {showCurrency && <CurrencyToggle />}
+        <LanguageSelector variant="compact" />
+      </div>
     </div>
   );
 };
